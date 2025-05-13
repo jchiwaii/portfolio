@@ -8,7 +8,7 @@ const Contact = () => {
         <section>
           <h1 className="text-sm font-medium">Contact</h1>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Feel free to reach out for collaborations or just a friendly hello.
+            Friendly hello, or just wanna stalk? Here you go.
           </p>
         </section>
 

@@ -1,39 +1,45 @@
 import Layout from "@/components/Layout";
-import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
 
 const Index = () => {
   return (
     <Layout>
-      <div className="space-y-10">
-        <section className="space-y-3">
-          <p className="text-sm text-foreground max-w-xl">John Chiwai</p>
-          <p className="text-xs text-muted-foreground max-w-xl">
-            Software developer focused on building minimal, functional, and
-            beautiful digital experiences.
+      <div
+        className="section-spacing"
+        role="main"
+        aria-label="Personal introduction and about section"
+      >
+        <section className="space-y-1" aria-labelledby="intro-heading">
+          <h1 className="h1">John Chiwai</h1>
+          <p className="text-muted-foreground" id="tagline">
+            Where logic meets aesthetics. I create things that make sense and
+            look right.
           </p>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-xs font-medium tracking-tight">About</h2>
-          <p className="text-xs text-muted-foreground max-w-xl leading-relaxed">
-            Software engineering bandwidth and genius ideas are the bottlenecks
-            to rapid progress. My work focuses on solving complex problems with
-            simple, elegant solutions.
-          </p>
-
-          <div className="flex flex-wrap gap-2 pt-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1 text-xs h-6"
-              asChild
-            >
-              <a href="/cv.pdf" download>
-                <FileText size={12} />
-                Download CV
-              </a>
-            </Button>
+        <section className="content-spacing" aria-labelledby="about-heading">
+          <h2 id="about-heading" className="h2">
+            About
+          </h2>
+          <div className="item-spacing">
+            <p className="text-muted-foreground">
+              There's too much noise—cluttered interfaces, messy data, scattered
+              solutions, with the new dawn of AI. I'm drawn to the opposite:
+              clarity, structure, and elegance. I'm building the kind of thinker
+              and maker who bridges logic and creativity—someone who sees the
+              whole system and still obsesses over a single pixel.
+            </p>
+            <p className="text-muted-foreground">
+              I've always been drawn to patterns. Whether in numbers, visuals,
+              or systems. What started with a love for precision and structure
+              naturally evolved into exploring how data tells stories, how
+              interfaces speak, and how technology connects it all. I design
+              dashboards that feel intuitive, build APIs that bridge ideas, and
+              craft interfaces that look as good as they work.
+            </p>
+            <p className="text-muted-foreground">
+              I'm still learning, always refining. Simplicity is my compass;
+              creativity is the spark.
+            </p>
           </div>
         </section>
       </div>

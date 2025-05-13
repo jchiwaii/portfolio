@@ -1,31 +1,14 @@
-
 import Layout from "@/components/Layout";
 
 const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: "Project One",
+      title: "Kanga",
       description:
-        "A detailed description of your first project. What problem does it solve? What technologies did you use? What was your role?",
-      technologies: ["React", "TypeScript", "Tailwind CSS"],
-      link: "https://github.com/yourusername/project-one",
-    },
-    {
-      id: 2,
-      title: "Project Two",
-      description:
-        "A detailed description of your second project. What problem does it solve? What technologies did you use? What was your role?",
-      technologies: ["Next.js", "GraphQL", "Styled Components"],
-      link: "https://github.com/yourusername/project-two",
-    },
-    {
-      id: 3,
-      title: "Project Three",
-      description:
-        "A detailed description of your third project. What problem does it solve? What technologies did you use? What was your role?",
-      technologies: ["Vue.js", "Firebase", "SCSS"],
-      link: "https://github.com/yourusername/project-three",
+        "A modern tailoring website showcasing bespoke Swahili fashion for weddings and everyday wear. Built an elegant, responsive user interface to highlight services, gallery, and booking features.",
+      technologies: ["HTML", "SCSS", "Javascript"],
+      link: "https://kanga.netlify.app/",
     },
   ];
 
@@ -33,8 +16,10 @@ const Projects = () => {
     <Layout>
       <div className="space-y-6">
         <section className="mt-0">
-          <h1 className="text-sm font-medium mt-0 pl-0">Projects</h1>
-          <p className="text-xs text-muted-foreground mt-0.5 pl-0">
+          <h1 className="text-sm font-semibold tracking-tight mt-0">
+            Projects
+          </h1>
+          <p className="text-xs text-muted-foreground mt-0.5">
             A collection of projects I've worked on.
           </p>
         </section>
@@ -43,26 +28,27 @@ const Projects = () => {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="rounded-md space-y-2 hover:bg-secondary/20 transition-colors"
+              className="rounded-md py-4 space-y-3 hover:bg-secondary/20 transition-colors duration-200"
             >
-              <h2 className="text-xs font-medium mt-0 pl-0">{project.title}</h2>
-              <p className="text-xs text-muted-foreground pl-0">{project.description}</p>
-              <div className="flex flex-wrap gap-1 pl-0">
+              <h2 className="text-xs font-semibold tracking-tight mt-0">
+                {project.title}
+              </h2>
+              <p className="text-xs text-muted-foreground">
+                {project.description}
+              </p>
+              <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="bg-secondary text-secondary-foreground px-2 py-0.5 text-xs rounded-full"
-                  >
+                  <span key={tech} className="tag">
                     {tech}
                   </span>
                 ))}
               </div>
-              <div className="pl-0">
+              <div>
                 <a
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs underline underline-offset-2 hover:text-primary"
+                  className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
                 >
                   View Project →
                 </a>

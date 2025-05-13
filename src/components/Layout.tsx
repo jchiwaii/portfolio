@@ -53,9 +53,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             role="navigation"
             aria-label="Main navigation"
           >
-            <NavItem to="/projects">Projects</NavItem>
-            <NavItem to="/articles">Articles</NavItem>
-            <NavItem to="/contact">Contact</NavItem>
+            <NavItem to="/projects" className="nav-item">
+              Projects
+            </NavItem>
+            <NavItem to="/articles" className="nav-item">
+              Articles
+            </NavItem>
+            <NavItem to="/contact" className="nav-item">
+              Contact
+            </NavItem>
           </nav>
           <div className="flex items-center space-x-4">
             <ThemeToggle />
@@ -142,7 +148,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               href="https://github.com/jchiwaii"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle"
+              className="text-xs text-muted-foreground hover-subtle footer-link"
               aria-label="GitHub profile"
             >
               GitHub
@@ -151,7 +157,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               href="https://www.linkedin.com/in/john-chiwai/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle"
+              className="text-xs text-muted-foreground hover-subtle footer-link"
               aria-label="LinkedIn profile"
             >
               LinkedIn
@@ -160,7 +166,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               href="https://medium.com/@chiwai.kiriba"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle"
+              className="text-xs text-muted-foreground hover-subtle footer-link"
               aria-label="Medium blog"
             >
               Medium
@@ -169,13 +175,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               href="https://www.instagram.com/artify.ck/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle"
+              className="text-xs text-muted-foreground hover-subtle footer-link"
               aria-label="Instagram profile"
             >
               Instagram
             </a>
           </nav>
-          <div className="text-xs text-muted-foreground" aria-label="Copyright">
+          <div
+            className="text-xs text-muted-foreground font-medium"
+            aria-label="Copyright"
+          >
             © Chiwai❤️
           </div>
         </div>

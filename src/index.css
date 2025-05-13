@@ -15,59 +15,59 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 97%; /* #F8F8F8 */
+    --foreground: 0 0% 20%; /* #333333 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 0 0% 97%;
+    --card-foreground: 0 0% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: 0 0% 97%;
+    --popover-foreground: 0 0% 20%;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 97%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 0 0% 97%;
+    --secondary-foreground: 0 0% 20%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 5% 35%;
+    --muted: 0 0% 97%;
+    --muted-foreground: 0 0% 20%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 0 0% 97%;
+    --accent-foreground: 0 0% 20%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5% 64.9%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 83.9%;
 
     --radius: 0.25rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 0%; /* #000000 */
+    --foreground: 0 0% 67%; /* #AAAAAA */
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 67%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 67%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 0 0% 67%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 0%;
+    --secondary-foreground: 0 0% 67%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 84.9%;
+    --muted: 0 0% 0%;
+    --muted-foreground: 0 0% 67%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 0 0% 0%;
+    --accent-foreground: 0 0% 67%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 28%;
   }
 }
 
@@ -77,7 +77,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-normal;
     font-family: "Satoshi", sans-serif;
   }
 
@@ -101,31 +101,85 @@
   /* Typography scale */
   h1,
   .h1 {
-    @apply text-lg font-normal tracking-tight;
+    @apply text-lg font-semibold tracking-tight;
+    letter-spacing: 0.01px;
   }
 
   h2,
   .h2 {
-    @apply text-sm font-normal tracking-tight;
+    @apply text-sm font-semibold tracking-tight;
+    letter-spacing: 0.01px;
   }
 
   h3,
   .h3 {
-    @apply text-xs font-normal tracking-tight;
+    @apply text-xs font-semibold tracking-tight;
+    letter-spacing: 0.01px;
   }
 
   p {
-    @apply text-xs font-light leading-relaxed;
+    @apply text-xs font-normal leading-relaxed;
+  }
+
+  /* Navigation and UI elements */
+  .nav-item {
+    @apply font-medium transition-colors duration-200;
+  }
+
+  .font-calligraphy {
+    font-family: "Passions Conflict", cursive;
+    font-size: 2rem;
+    letter-spacing: 0.5px;
+    @apply font-medium;
   }
 
   /* Content text specific styles */
   .content-text {
-    @apply text-foreground/80;
+    @apply text-foreground/90;
   }
 
   /* Subtle hover effect */
   .hover-subtle {
-    @apply transition-colors duration-200 hover:text-foreground/90;
+    @apply transition-colors duration-200 hover:text-foreground/90 font-medium;
+  }
+
+  /* Tag styles */
+  .tag {
+    @apply px-3 py-1.5 rounded-full text-xs font-medium bg-secondary/30 text-secondary-foreground transition-colors duration-200;
+  }
+
+  /* Section headings */
+  .section-title {
+    @apply font-semibold;
+  }
+
+  /* Footer links */
+  .footer-link {
+    @apply font-medium;
+  }
+
+  /* Interactive elements */
+  a,
+  button {
+    @apply transition-colors duration-200;
+  }
+
+  /* Light mode specific hover states */
+  .light {
+    .nav-item:hover,
+    .footer-link:hover,
+    a:hover {
+      color: #000000;
+    }
+  }
+
+  /* Dark mode specific hover states */
+  .dark {
+    .nav-item:hover,
+    .footer-link:hover,
+    a:hover {
+      color: #ffffff;
+    }
   }
 }
 
@@ -136,4 +190,26 @@
 
 .light .theme-toggle {
   @apply border border-gray-300;
+}
+
+/* Body text specific colors */
+.light p,
+.light .text-muted-foreground {
+  color: #333333; /* Lighter than before */
+}
+
+.dark p,
+.dark .text-muted-foreground {
+  color: #aaaaaa; /* Keeping the same */
+}
+
+/* Theme toggle hover effect */
+.light .theme-toggle:hover {
+  @apply bg-secondary/80;
+  color: #000000;
+}
+
+.dark .theme-toggle:hover {
+  @apply bg-secondary/80;
+  color: #ffffff;
 }

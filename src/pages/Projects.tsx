@@ -8,7 +8,8 @@ const Projects = () => {
       description:
         "A modern tailoring website showcasing bespoke Swahili fashion for weddings and everyday wear. Built an elegant, responsive user interface to highlight services, gallery, and booking features.",
       technologies: ["HTML", "SCSS", "Javascript"],
-      link: "https://kanga.netlify.app/",
+      liveLink: "https://kanga.netlify.app/",
+      codeLink: "https://github.com/jchiwaii/kanga",
     },
   ];
 
@@ -43,14 +44,22 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
-              <div>
+              <div className="flex gap-4">
                 <a
-                  href={project.link}
+                  href={project.codeLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
                 >
-                  View Project →
+                  View Code →
+                </a>
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
+                >
+                  View Live →
                 </a>
               </div>
             </div>

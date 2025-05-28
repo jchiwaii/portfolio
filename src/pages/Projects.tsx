@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -70,33 +71,60 @@ const Projects = () => {
           </p>
         </section>
 
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <section className="flex flex-col sm:flex-row gap-4 -mx-2">
           {categories.map((category) => (
-            <button
+            <motion.button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`p-4 rounded-md text-left transition-colors duration-200 ${
-                activeCategory === category.id
-                  ? "bg-secondary/30"
-                  : "hover:bg-secondary/20"
-              }`}
+              className={`group relative px-4 py-3 rounded-md text-left transition-all duration-200 outline-none ring-offset-background
+                ${
+                  activeCategory === category.id
+                    ? "bg-secondary/40 dark:bg-secondary/30"
+                    : "hover:bg-secondary/20 dark:hover:bg-secondary/10"
+                }
+                ${
+                  activeCategory === category.id
+                    ? "ring-2 ring-primary/20 dark:ring-primary/10"
+                    : "hover:ring-1 hover:ring-primary/10 dark:hover:ring-primary/5"
+                }
+              `}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
             >
-              <h3 className="text-xs font-semibold tracking-tight mt-0">
-                {category.title}
-              </h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {category.description}
-              </p>
-            </button>
+              <div className="relative z-10">
+                <h3 className="text-xs font-semibold tracking-tight mt-0">
+                  {category.title}
+                </h3>
+                <p className="text-xs text-muted-foreground mt-0.5 transition-colors duration-200 group-hover:text-muted-foreground/80">
+                  {category.description}
+                </p>
+              </div>
+              {activeCategory === category.id && (
+                <motion.div
+                  className="absolute inset-0 rounded-md bg-gradient-to-br from-primary/5 to-transparent dark:from-primary/10 dark:to-transparent"
+                  layoutId="activeCategory"
+                  initial={false}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+            </motion.button>
           ))}
         </section>
 
         {activeCategory && (
-          <section className="grid grid-cols-1 gap-6 mt-0">
+          <motion.section
+            className="grid grid-cols-1 gap-6 mt-0"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
             {filteredProjects.map((project) => (
-              <div
+              <motion.div
                 key={project.id}
                 className="rounded-md py-4 space-y-3 hover:bg-secondary/20 transition-colors duration-200"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
               >
                 <h2 className="text-xs font-semibold tracking-tight mt-0">
                   {project.title}
@@ -133,9 +161,9 @@ const Projects = () => {
                     </a>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </section>
+          </motion.section>
         )}
       </div>
     </Layout>

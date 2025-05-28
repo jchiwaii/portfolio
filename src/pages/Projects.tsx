@@ -4,6 +4,14 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
+      title: "Weather Time Series",
+      description:
+        "I conducted a simple time-series analysis of Nairobi weather data using ARIMA.",
+      technologies: ["Python", "ARIMA", "Time Series"],
+      codeLink: "https://github.com/jchiwaii/ARIMA-Weather-Forecast",
+    },
+    {
+      id: 2,
       title: "Insurance Dashboard",
       description:
         "This is a simple one page insurance dashboard made in Power BI and Figma. No DAX measures, just simple and to the point",
@@ -12,7 +20,7 @@ const Projects = () => {
         "https://app.powerbi.com/view?r=eyJrIjoiMDMzOTg3ZmItZmVmZC00NTQyLWI3OTctMzMyMTkxYWY3ZGY3IiwidCI6ImExZDBiNWJmLTYyYTItNDhhMS1iYWM4LTdjNGY0YjJjNTBkNSJ9",
     },
     {
-      id: 2,
+      id: 3,
       title: "Kanga",
       description:
         "A modern tailoring website showcasing bespoke Swahili fashion for weddings and everyday wear. Built an elegant, responsive user interface to highlight services, gallery, and booking features.",
@@ -54,22 +62,26 @@ const Projects = () => {
                 ))}
               </div>
               <div className="flex gap-4">
-                <a
-                  href={project.codeLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
-                >
-                  View Code →
-                </a>
-                <a
-                  href={project.liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
-                >
-                  View Live →
-                </a>
+                {project.codeLink && (
+                  <a
+                    href={project.codeLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
+                  >
+                    View Code →
+                  </a>
+                )}
+                {project.liveLink && (
+                  <a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
+                  >
+                    View Live →
+                  </a>
+                )}
               </div>
             </div>
           ))}

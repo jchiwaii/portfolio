@@ -1,6 +1,27 @@
 import Layout from "@/components/Layout";
+import { useState } from "react";
 
 const Projects = () => {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  const categories = [
+    {
+      id: "web",
+      title: "Web",
+      description: "Web applications and interfaces",
+    },
+    {
+      id: "data-analysis",
+      title: "Data Analysis",
+      description: "Business intelligence and data visualization",
+    },
+    {
+      id: "data-science",
+      title: "Data Science",
+      description: "Machine learning and statistical modeling",
+    },
+  ];
+
   const projects = [
     {
       id: 1,
@@ -9,6 +30,7 @@ const Projects = () => {
         "I conducted a simple time-series analysis of Nairobi weather data using ARIMA.",
       technologies: ["Python", "ARIMA", "Time Series"],
       codeLink: "https://github.com/jchiwaii/ARIMA-Weather-Forecast",
+      category: "data-science",
     },
     {
       id: 2,
@@ -18,6 +40,7 @@ const Projects = () => {
       technologies: ["SQL", "Power BI", "Figma"],
       liveLink:
         "https://app.powerbi.com/view?r=eyJrIjoiMDMzOTg3ZmItZmVmZC00NTQyLWI3OTctMzMyMTkxYWY3ZGY3IiwidCI6ImExZDBiNWJmLTYyYTItNDhhMS1iYWM4LTdjNGY0YjJjNTBkNSJ9",
+      category: "data-analysis",
     },
     {
       id: 3,
@@ -27,8 +50,13 @@ const Projects = () => {
       technologies: ["HTML", "SCSS", "Javascript"],
       liveLink: "https://kanga.netlify.app/",
       codeLink: "https://github.com/jchiwaii/kanga",
+      category: "web",
     },
   ];
+
+  const filteredProjects = activeCategory
+    ? projects.filter((project) => project.category === activeCategory)
+    : [];
 
   return (
     <Layout>
@@ -42,50 +70,73 @@ const Projects = () => {
           </p>
         </section>
 
-        <section className="grid grid-cols-1 gap-6 mt-0">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="rounded-md py-4 space-y-3 hover:bg-secondary/20 transition-colors duration-200"
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setActiveCategory(category.id)}
+              className={`p-4 rounded-md text-left transition-colors duration-200 ${
+                activeCategory === category.id
+                  ? "bg-secondary/30"
+                  : "hover:bg-secondary/20"
+              }`}
             >
-              <h2 className="text-xs font-semibold tracking-tight mt-0">
-                {project.title}
-              </h2>
-              <p className="text-xs text-muted-foreground">
-                {project.description}
+              <h3 className="text-xs font-semibold tracking-tight mt-0">
+                {category.title}
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {category.description}
               </p>
-              <div className="flex flex-wrap gap-2">
-                {project.technologies.map((tech) => (
-                  <span key={tech} className="tag">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div className="flex gap-4">
-                {project.codeLink && (
-                  <a
-                    href={project.codeLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
-                  >
-                    View Code →
-                  </a>
-                )}
-                {project.liveLink && (
-                  <a
-                    href={project.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
-                  >
-                    View Live →
-                  </a>
-                )}
-              </div>
-            </div>
+            </button>
           ))}
         </section>
+
+        {activeCategory && (
+          <section className="grid grid-cols-1 gap-6 mt-0">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className="rounded-md py-4 space-y-3 hover:bg-secondary/20 transition-colors duration-200"
+              >
+                <h2 className="text-xs font-semibold tracking-tight mt-0">
+                  {project.title}
+                </h2>
+                <p className="text-xs text-muted-foreground">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies.map((tech) => (
+                    <span key={tech} className="tag">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-4">
+                  {project.codeLink && (
+                    <a
+                      href={project.codeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
+                    >
+                      View Code →
+                    </a>
+                  )}
+                  {project.liveLink && (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
+                    >
+                      View Live →
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </Layout>
   );

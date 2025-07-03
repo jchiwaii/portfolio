@@ -1,31 +1,28 @@
-import { ThemeToggle } from "@/components/ThemeToggle";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
-const NavItem = ({
-  to,
-  children,
-  className,
-  onClick,
-}: {
+interface NavItemProps {
   to: string;
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
-}) => (
-  <Link
-    to={to}
-    onClick={onClick}
-    className={cn(
-      "text-xs font-medium text-muted-foreground hover:text-foreground transition-colors",
-      className
-    )}
-  >
-    {children}
-  </Link>
-);
+}
+
+function NavItem({ to, children, className, onClick }: NavItemProps) {
+  return (
+    <Link
+      to={to}
+      className={cn("nav-item", className)}
+      onClick={onClick}
+      role="menuitem"
+    >
+      {children}
+    </Link>
+  );
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,13 +32,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground antialiased">
       <header
-        className="w-full max-w-xl mx-auto px-6 py-3 flex items-center justify-between relative"
+        className="w-full max-w-2xl mx-auto px-6 py-6 flex items-center justify-between relative"
         role="banner"
       >
         <div>
           <Link
             to="/"
-            className="font-calligraphy hover-subtle"
+            className="font-calligraphy text-2xl text-primary hover:text-primary/80 transition-colors duration-200"
             aria-label="Home"
           >
             Chiwai
@@ -130,65 +127,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="flex-1 w-full max-w-xl mx-auto px-6 py-6" role="main">
+      <main className="flex-1 w-full max-w-2xl mx-auto px-6 pb-8" role="main">
         {children}
       </main>
-
-      <footer
-        className="w-full max-w-xl mx-auto px-6 py-3"
-        role="contentinfo"
-        aria-label="Site footer"
-      >
-        <div className="flex flex-col sm:flex-row justify-between items-center border-t border-border pt-3">
-          <nav
-            className="flex space-x-6 mb-3 sm:mb-0"
-            aria-label="Social media links"
-          >
-            <a
-              href="https://github.com/jchiwaii"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle footer-link"
-              aria-label="GitHub profile"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/john-chiwai/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle footer-link"
-              aria-label="LinkedIn profile"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="https://medium.com/@chiwai.kiriba"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle footer-link"
-              aria-label="Medium blog"
-            >
-              Medium
-            </a>
-            <a
-              href="https://www.instagram.com/artify.ck/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover-subtle footer-link"
-              aria-label="Instagram profile"
-            >
-              Instagram
-            </a>
-          </nav>
-          <div
-            className="text-xs text-muted-foreground font-medium"
-            aria-label="Copyright"
-          >
-            © Chiwai❤️
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

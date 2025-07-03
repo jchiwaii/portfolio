@@ -15,59 +15,59 @@
 
 @layer base {
   :root {
-    --background: 0 0% 97%; /* #F8F8F8 */
-    --foreground: 0 0% 20%; /* #333333 */
+    --background: 252 251 249; /* #FCFBF9 - warm white */
+    --foreground: 67 56 58; /* #43383A - warm dark */
 
-    --card: 0 0% 97%;
-    --card-foreground: 0 0% 20%;
+    --card: 252 251 249;
+    --card-foreground: 67 56 58;
 
-    --popover: 0 0% 97%;
-    --popover-foreground: 0 0% 20%;
+    --popover: 252 251 249;
+    --popover-foreground: 67 56 58;
 
-    --primary: 0 0% 20%;
-    --primary-foreground: 0 0% 97%;
+    --primary: 219 39 119; /* #DB2777 - warm pink */
+    --primary-foreground: 252 251 249;
 
-    --secondary: 0 0% 97%;
-    --secondary-foreground: 0 0% 20%;
+    --secondary: 251 207 232; /* #FBCFE8 - light pink */
+    --secondary-foreground: 67 56 58;
 
-    --muted: 0 0% 97%;
-    --muted-foreground: 0 0% 20%;
+    --muted: 248 243 245; /* #F8F3F5 - very light pink */
+    --muted-foreground: 120 113 108; /* #78716C - muted brown */
 
-    --accent: 0 0% 97%;
-    --accent-foreground: 0 0% 20%;
+    --accent: 251 207 232;
+    --accent-foreground: 67 56 58;
 
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 83.9%;
+    --border: 244 228 234; /* #F4E4EA - pink border */
+    --input: 244 228 234;
+    --ring: 236 181 201; /* #ECB5C9 - pink ring */
 
-    --radius: 0.25rem;
+    --radius: 0.5rem;
   }
 
   .dark {
-    --background: 0 0% 0%; /* #000000 */
-    --foreground: 0 0% 67%; /* #AAAAAA */
+    --background: 23 23 23; /* #171717 - warm dark */
+    --foreground: 245 224 233; /* #F5E0E9 - warm light pink */
 
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 67%;
+    --card: 23 23 23;
+    --card-foreground: 245 224 233;
 
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 67%;
+    --popover: 23 23 23;
+    --popover-foreground: 245 224 233;
 
-    --primary: 0 0% 67%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 236 72 153; /* #EC4899 - bright pink */
+    --primary-foreground: 23 23 23;
 
-    --secondary: 0 0% 0%;
-    --secondary-foreground: 0 0% 67%;
+    --secondary: 39 39 42; /* #27272A - dark secondary */
+    --secondary-foreground: 245 224 233;
 
-    --muted: 0 0% 0%;
-    --muted-foreground: 0 0% 67%;
+    --muted: 39 39 42;
+    --muted-foreground: 161 161 170; /* #A1A1AA - muted light */
 
-    --accent: 0 0% 0%;
-    --accent-foreground: 0 0% 67%;
+    --accent: 39 39 42;
+    --accent-foreground: 245 224 233;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 28%;
+    --border: 51 45 47; /* #332D2F - dark warm border */
+    --input: 51 45 47;
+    --ring: 190 24 93; /* #BE185D - dark pink ring */
   }
 }
 
@@ -169,7 +169,7 @@
     .nav-item:hover,
     .footer-link:hover,
     a:hover {
-      color: #000000;
+      color: hsl(var(--primary));
     }
   }
 
@@ -178,9 +178,19 @@
     .nav-item:hover,
     .footer-link:hover,
     a:hover {
-      color: #ffffff;
+      color: hsl(var(--primary));
     }
   }
+}
+
+/* Profile image styles */
+.profile-image {
+  @apply w-32 h-32 rounded-full object-cover border-4 border-primary/20 shadow-lg;
+}
+
+/* Social icons */
+.social-icon {
+  @apply w-5 h-5 text-muted-foreground hover:text-primary transition-colors duration-200;
 }
 
 /* Fix for theme toggle visibility in light mode */

@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SplitScreenLayout from "@/components/SplitScreenLayout";
 import Home from "./pages/Index";
 import Projects from "./pages/Projects";
 import Articles from "./pages/Articles";
@@ -18,7 +19,14 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <SplitScreenLayout>
+                <Home />
+              </SplitScreenLayout>
+            }
+          />
           <Route path="/projects" element={<Projects />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/contact" element={<Contact />} />

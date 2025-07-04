@@ -1,9 +1,13 @@
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, BookOpen } from "lucide-react";
-import { LucideIcon } from "lucide-react";
+import ProjectsPanel from "@/components/ProjectsPanel";
 
-const Index = () => {
+interface IndexProps {
+  openRightPanel?: (content: React.ReactNode, title: string) => void;
+}
+
+const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -49,6 +53,22 @@ const Index = () => {
       label: "Medium",
     },
   ];
+
+  const handleProjectsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (openRightPanel) {
+      openRightPanel(<ProjectsPanel />, "Projects");
+    } else {
+      // Fallback to normal navigation if split-screen is not available
+      window.location.href = "/projects";
+    }
+  };
+
+  const handleArticlesClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // For now, use normal navigation for articles
+    window.location.href = "/articles";
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -117,20 +137,20 @@ const Index = () => {
         transition={{ delay: 0.6 }}
       >
         <div className="flex justify-center space-x-8">
-          <motion.a
-            href="/projects"
-            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
+          <motion.button
+            onClick={handleProjectsClick}
+            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
             whileHover={{ y: -2 }}
           >
             Projects
-          </motion.a>
-          <motion.a
-            href="/articles"
-            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
+          </motion.button>
+          <motion.button
+            onClick={handleArticlesClick}
+            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
             whileHover={{ y: -2 }}
           >
             Articles
-          </motion.a>
+          </motion.button>
         </div>
       </motion.nav>
     </div>

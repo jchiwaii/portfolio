@@ -62,17 +62,19 @@ const Index = () => {
           {/* Profile Image */}
           <motion.div className="flex justify-center" variants={itemVariants}>
             <div className="profile-image bg-gradient-to-br from-primary/20 to-secondary/30 flex items-center justify-center">
-              <span className="text-4xl font-semibold text-primary">C</span>
+              <span className="text-4xl font-semibold text-primary">JC</span>
             </div>
           </motion.div>
 
-          {/* Name */}
-          <motion.h1
-            className="font-calligraphy text-4xl text-primary"
-            variants={itemVariants}
-          >
-            Chiwai
-          </motion.h1>
+          {/* Name and Title */}
+          <motion.div className="space-y-2" variants={itemVariants}>
+            <h1 className="font-calligraphy text-4xl text-primary">
+              John Chiwai
+            </h1>
+            <p className="text-sm font-medium text-muted-foreground tracking-wide">
+              Developer | Learner
+            </p>
+          </motion.div>
 
           {/* Tagline */}
           <motion.p

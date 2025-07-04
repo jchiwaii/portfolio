@@ -15,30 +15,30 @@
 
 @layer base {
   :root {
-    --background: 23 23 23; /* #171717 - warm dark */
-    --foreground: 245 224 233; /* #F5E0E9 - warm light pink */
+    --background: 20 20 20; /* #141414 - slightly lighter dark for better contrast */
+    --foreground: 248 248 248; /* #F8F8F8 - high contrast white */
 
-    --card: 23 23 23;
-    --card-foreground: 245 224 233;
+    --card: 20 20 20;
+    --card-foreground: 248 248 248;
 
-    --popover: 23 23 23;
-    --popover-foreground: 245 224 233;
+    --popover: 20 20 20;
+    --popover-foreground: 248 248 248;
 
-    --primary: 236 72 153; /* #EC4899 - bright pink */
-    --primary-foreground: 23 23 23;
+    --primary: 239 68 146; /* #EF4492 - accessible bright pink */
+    --primary-foreground: 20 20 20;
 
-    --secondary: 39 39 42; /* #27272A - dark secondary */
-    --secondary-foreground: 245 224 233;
+    --secondary: 45 45 48; /* #2D2D30 - lighter secondary for better contrast */
+    --secondary-foreground: 248 248 248;
 
-    --muted: 39 39 42;
-    --muted-foreground: 161 161 170; /* #A1A1AA - muted light */
+    --muted: 45 45 48;
+    --muted-foreground: 180 180 180; /* #B4B4B4 - much more readable muted text */
 
-    --accent: 39 39 42;
-    --accent-foreground: 245 224 233;
+    --accent: 45 45 48;
+    --accent-foreground: 248 248 248;
 
-    --border: 51 45 47; /* #332D2F - dark warm border */
-    --input: 51 45 47;
-    --ring: 190 24 93; /* #BE185D - dark pink ring */
+    --border: 65 65 68; /* #414144 - more visible borders */
+    --input: 65 65 68;
+    --ring: 239 68 146; /* Match primary for consistency */
 
     --radius: 0.5rem;
   }
@@ -104,6 +104,8 @@
     font-size: 2rem;
     letter-spacing: 0.5px;
     @apply font-medium;
+    color: hsl(var(--primary));
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.3);
   }
 
   /* Content text specific styles */
@@ -118,7 +120,7 @@
 
   /* Tag styles */
   .tag {
-    @apply px-3 py-1.5 rounded-full text-xs font-medium bg-secondary/30 text-secondary-foreground transition-colors duration-200;
+    @apply px-3 py-1.5 rounded-full text-xs font-medium bg-secondary/35 text-foreground/90 transition-colors duration-200;
   }
 
   /* Section headings */
@@ -137,11 +139,39 @@
     @apply transition-colors duration-200;
   }
 
+  /* Focus states for accessibility */
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary rounded-sm;
+  }
+
   /* Hover states */
   .nav-item:hover,
   .footer-link:hover,
   a:hover {
     color: hsl(var(--primary));
+  }
+
+  /* Enhanced readability for smaller text */
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Better contrast for secondary elements */
+  .bg-secondary\/5 {
+    background-color: hsl(var(--secondary) / 0.1);
+  }
+
+  .bg-secondary\/10 {
+    background-color: hsl(var(--secondary) / 0.15);
+  }
+
+  .bg-secondary\/20 {
+    background-color: hsl(var(--secondary) / 0.25);
+  }
+
+  .bg-secondary\/30 {
+    background-color: hsl(var(--secondary) / 0.35);
   }
 }
 

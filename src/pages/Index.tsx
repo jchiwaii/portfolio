@@ -59,8 +59,6 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
 
     if (openRightPanel) {
       openRightPanel(<ProjectsPanel />, "Projects");
-    } else {
-      window.location.href = "/projects";
     }
   };
 
@@ -69,8 +67,6 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
 
     if (openRightPanel) {
       openRightPanel(<ArticlesPanel />, "Articles");
-    } else {
-      window.location.href = "/articles";
     }
   };
 
@@ -180,7 +176,7 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
 
             {/* Name and Title */}
             <div ref={nameRef} className="space-y-2" style={{ opacity: 0 }}>
-              <h1 className="font-calligraphy text-4xl text-primary">
+              <h1 className="text-3xl font-semibold text-primary tracking-tight">
                 John Chiwai
               </h1>
               <p className="text-sm font-medium text-muted-foreground tracking-wide">

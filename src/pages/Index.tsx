@@ -1,35 +1,34 @@
-import Layout from "@/components/Layout";
-import { motion } from "framer-motion";
+import { useRef, useEffect, useLayoutEffect } from "react";
+import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
 import { Github, Linkedin, Mail, BookOpen } from "lucide-react";
 import ProjectsPanel from "@/components/ProjectsPanel";
+
+// Register GSAP plugins
+gsap.registerPlugin(CustomEase);
+
+// Configure GSAP for maximum performance
+gsap.config({
+  force3D: true,
+  nullTargetWarn: false,
+});
+
+// Custom easing curves for luxury feel
+CustomEase.create("luxuryOut", "0.25, 1, 0.5, 1");
+CustomEase.create("subtleIn", "0.4, 0, 0.2, 1");
 
 interface IndexProps {
   openRightPanel?: (content: React.ReactNode, title: string) => void;
 }
 
 const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.25, 0, 1],
-      },
-    },
-  };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentWrapperRef = useRef<HTMLDivElement>(null);
+  const profileImageRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLDivElement>(null);
+  const socialLinksRef = useRef<HTMLDivElement>(null);
+  const navigationRef = useRef<HTMLDivElement>(null);
+  const masterTl = useRef<gsap.core.Timeline>();
 
   const socialLinks = [
     {
@@ -56,103 +55,178 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
 
   const handleProjectsClick = (e: React.MouseEvent) => {
     e.preventDefault();
+
     if (openRightPanel) {
       openRightPanel(<ProjectsPanel />, "Projects");
     } else {
-      // Fallback to normal navigation if split-screen is not available
       window.location.href = "/projects";
     }
   };
 
   const handleArticlesClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // For now, use normal navigation for articles
     window.location.href = "/articles";
   };
 
+  // Smooth entrance animation
+  useLayoutEffect(() => {
+    if (masterTl.current) {
+      masterTl.current.kill();
+    }
+
+    // Set initial states
+    gsap.set(
+      [
+        profileImageRef.current,
+        nameRef.current,
+        socialLinksRef.current,
+        navigationRef.current,
+      ],
+      {
+        opacity: 0,
+        y: 20,
+      }
+    );
+
+    // Create smooth entrance timeline
+    const tl = gsap.timeline();
+
+    tl.to(profileImageRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "luxuryOut",
+    })
+      .to(
+        nameRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "luxuryOut",
+        },
+        "-=0.5"
+      )
+      .to(
+        socialLinksRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "luxuryOut",
+        },
+        "-=0.4"
+      )
+      .to(
+        navigationRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "luxuryOut",
+        },
+        "-=0.3"
+      );
+
+    masterTl.current = tl;
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (masterTl.current) {
+        masterTl.current.kill();
+      }
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Main Content */}
-      <motion.main
-        className="flex-1 flex items-center justify-center px-6"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-background flex flex-col"
+    >
+      {/* Content wrapper to prevent reflow */}
+      <div
+        ref={contentWrapperRef}
+        className="flex-1 flex flex-col"
+        style={{
+          minWidth: 0, // Prevent overflow
+          contain: "layout",
+        }}
       >
-        <div className="text-center space-y-8 max-w-md">
-          {/* Profile Image */}
-          <motion.div className="flex justify-center" variants={itemVariants}>
-            <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
-              <img
-                src="/images/profile.jpg"
-                alt="John Chiwai"
-                className="w-full h-full object-cover object-center scale-110"
-              />
+        {/* Main Content */}
+        <main className="flex-1 flex items-center justify-center px-6">
+          <div className="text-center space-y-10 max-w-md w-full">
+            {/* Profile Image */}
+            <div
+              ref={profileImageRef}
+              className="flex justify-center"
+              style={{ opacity: 0 }}
+            >
+              <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+                <img
+                  src="/images/profile.jpg"
+                  alt="John Chiwai"
+                  className="w-full h-full object-cover object-center scale-110"
+                />
+              </div>
             </div>
-          </motion.div>
 
-          {/* Name and Title */}
-          <motion.div className="space-y-2" variants={itemVariants}>
-            <h1 className="font-calligraphy text-4xl text-primary">
-              John Chiwai
-            </h1>
-            <p className="text-sm font-medium text-muted-foreground tracking-wide">
-              Developer | Learner
-            </p>
-          </motion.div>
+            {/* Name and Title */}
+            <div ref={nameRef} className="space-y-2" style={{ opacity: 0 }}>
+              <h1 className="font-calligraphy text-4xl text-primary">
+                John Chiwai
+              </h1>
+              <p className="text-sm font-medium text-muted-foreground tracking-wide">
+                Developer | Learner
+              </p>
+            </div>
 
-          {/* Social Links */}
-          <motion.div
-            className="flex justify-center space-x-6"
-            variants={itemVariants}
-          >
-            {socialLinks.map((social) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                target={social.href.startsWith("http") ? "_blank" : undefined}
-                rel={
-                  social.href.startsWith("http")
-                    ? "noopener noreferrer"
-                    : undefined
-                }
-                className="group"
-                aria-label={social.label}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <social.icon className="social-icon" />
-              </motion.a>
-            ))}
-          </motion.div>
-        </div>
-      </motion.main>
+            {/* Social Links */}
+            <div
+              ref={socialLinksRef}
+              className="flex justify-center space-x-6"
+              style={{ opacity: 0 }}
+            >
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target={social.href.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    social.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                  className="group p-2 rounded-md hover:bg-secondary/10 transition-colors duration-300"
+                  aria-label={social.label}
+                >
+                  <social.icon className="social-icon w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </main>
 
-      {/* Bottom Navigation */}
-      <motion.nav
-        className="pb-8 px-6"
-        variants={itemVariants}
-        initial="hidden"
-        animate="visible"
-        transition={{ delay: 0.6 }}
-      >
-        <div className="flex justify-center space-x-8">
-          <motion.button
-            onClick={handleProjectsClick}
-            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
-            whileHover={{ y: -2 }}
-          >
-            Projects
-          </motion.button>
-          <motion.button
-            onClick={handleArticlesClick}
-            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
-            whileHover={{ y: -2 }}
-          >
-            Articles
-          </motion.button>
-        </div>
-      </motion.nav>
+        {/* Bottom Navigation */}
+        <nav ref={navigationRef} className="pb-8 px-6" style={{ opacity: 0 }}>
+          <div className="flex justify-center space-x-8">
+            <button
+              onClick={handleProjectsClick}
+              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
+            >
+              Projects
+            </button>
+
+            <button
+              onClick={handleArticlesClick}
+              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
+            >
+              Articles
+            </button>
+          </div>
+        </nav>
+      </div>
     </div>
   );
 };

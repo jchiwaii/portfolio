@@ -1,3 +1,118 @@
+/* Luxury performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Essential hardware acceleration */
+.social-icon-container,
+.nav-button,
+.project-card,
+.split-panel {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Smooth luxury transitions - ONLY for non-GSAP animated elements */
+.social-icon-container:not(.split-panel *),
+.nav-button:not(.split-panel *) {
+  transition: transform 0.3s ease-out, color 0.3s ease-out;
+}
+
+.project-card:not(.split-panel *) {
+  transition: border-color 0.3s ease-out;
+}
+
+/* Split screen optimizations - prevent layout shifts and conflicts */
+.split-screen-container {
+  contain: layout style paint;
+  transform: translateZ(0);
+  position: relative;
+  overflow: hidden;
+}
+
+.split-panel {
+  contain: layout;
+  will-change: width, transform;
+  backface-visibility: hidden;
+  flex-shrink: 0;
+  /* CRITICAL: No CSS transitions - let GSAP handle all animations */
+  transition: none !important;
+}
+
+/* Prevent text reflow during width animations */
+.split-panel * {
+  contain: layout;
+}
+
+/* Ensure GSAP controls these elements completely */
+.split-panel,
+.split-panel * {
+  /* Override any inherited transitions */
+  transition: none !important;
+}
+
+/* Allow specific transitions only for hover effects that don't conflict */
+.split-panel .hover-transition {
+  transition: color 0.2s ease-out, background-color 0.2s ease-out !important;
+}
+
+/* Luxury animations for ProjectsPanel */
+@keyframes slideIn {
+  from {
+    transform: translateY(-50%) scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-50%) scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Optimize text rendering */
+h1,
+h2,
+h3,
+.font-calligraphy {
+  text-rendering: optimizeLegibility;
+}
+
+/* Simple scrollbar styling */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.2) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.2);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.3);
+}
+
+/* Legacy styles */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -9,11 +124,13 @@
   height: 6em;
   padding: 1.5em;
   will-change: filter;
-  transition: filter 300ms;
+  transition: filter 300ms ease-out;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }

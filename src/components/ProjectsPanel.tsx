@@ -1,8 +1,26 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
+
+// Register GSAP plugins
+gsap.registerPlugin(CustomEase);
+
+// Configure GSAP for maximum performance
+gsap.config({
+  force3D: true,
+  nullTargetWarn: false,
+});
+
+// Custom easing curves - exactly like home page
+CustomEase.create("luxuryOut", "0.25, 1, 0.5, 1");
 
 const ProjectsPanel = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  const projectsRef = useRef<HTMLDivElement>(null);
+  const masterTl = useRef<gsap.core.Timeline>();
 
   const categories = [
     {
@@ -58,112 +76,192 @@ const ProjectsPanel = () => {
     ? projects.filter((project) => project.category === activeCategory)
     : [];
 
+  // Simple entrance animation - exactly like home page pattern
+  useLayoutEffect(() => {
+    if (masterTl.current) {
+      masterTl.current.kill();
+    }
+
+    // Set initial states - exactly like home page
+    gsap.set([headerRef.current, categoriesRef.current], {
+      opacity: 0,
+      y: 20,
+    });
+
+    // Create timeline exactly like home page
+    const tl = gsap.timeline();
+
+    tl.to(headerRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "luxuryOut",
+    }).to(
+      categoriesRef.current,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "luxuryOut",
+      },
+      "-=0.5"
+    );
+
+    masterTl.current = tl;
+  }, []);
+
+  // Animate projects when category changes - simple and clean
+  useEffect(() => {
+    if (activeCategory && projectsRef.current) {
+      // Set initial state
+      gsap.set(projectsRef.current, {
+        opacity: 0,
+        y: 20,
+      });
+
+      // Animate in
+      gsap.to(projectsRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "luxuryOut",
+        delay: 0.1,
+      });
+    } else if (!activeCategory && projectsRef.current) {
+      // Hide when no category selected
+      gsap.set(projectsRef.current, {
+        opacity: 0,
+      });
+    }
+  }, [activeCategory]);
+
+  // Cleanup
+  useEffect(() => {
+    return () => {
+      if (masterTl.current) {
+        masterTl.current.kill();
+      }
+    };
+  }, []);
+
   return (
     <div className="p-6 h-full">
-      <div className="space-y-6">
-        <section className="mt-0">
-          <h1 className="text-lg font-semibold tracking-tight mt-0 text-primary">
+      <div className="space-y-6 relative">
+        {/* Header */}
+        <section ref={headerRef} style={{ opacity: 0 }}>
+          <h1 className="text-lg font-semibold tracking-tight text-primary">
             Projects
           </h1>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <p className="text-sm text-muted-foreground mt-1">
             A collection of projects I've worked on.
           </p>
         </section>
 
-        <section className="flex flex-col gap-3">
+        {/* Categories */}
+        <section
+          ref={categoriesRef}
+          className="flex flex-col gap-3"
+          style={{ opacity: 0 }}
+        >
           {categories.map((category) => (
-            <motion.button
+            <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`group relative px-4 py-3 rounded-md text-left transition-all duration-200 outline-none ring-offset-background
+              className={`group relative px-5 py-4 rounded-lg text-left transition-all duration-300 outline-none hover:shadow-sm
                 ${
                   activeCategory === category.id
-                    ? "bg-secondary/30"
-                    : "hover:bg-secondary/10"
-                }
-                ${
-                  activeCategory === category.id
-                    ? "ring-2 ring-primary/10"
-                    : "hover:ring-1 hover:ring-primary/5"
+                    ? "bg-secondary/25 border border-primary/30 shadow-sm"
+                    : "hover:bg-secondary/15 border border-transparent hover:border-border/30"
                 }
               `}
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
             >
-              <div className="relative z-10">
-                <h3 className="text-xs font-semibold tracking-tight mt-0">
+              <div className="relative">
+                <h3
+                  className={`text-sm font-semibold tracking-tight transition-colors duration-300 ${
+                    activeCategory === category.id
+                      ? "text-primary"
+                      : "group-hover:text-foreground"
+                  }`}
+                >
                   {category.title}
                 </h3>
-                <p className="text-xs text-muted-foreground mt-0.5 transition-colors duration-200 group-hover:text-muted-foreground/80">
+                <p
+                  className={`text-xs mt-1 transition-colors duration-300 ${
+                    activeCategory === category.id
+                      ? "text-primary/70"
+                      : "text-muted-foreground group-hover:text-foreground/70"
+                  }`}
+                >
                   {category.description}
                 </p>
               </div>
+
               {activeCategory === category.id && (
-                <motion.div
-                  className="absolute inset-0 rounded-md bg-gradient-to-br from-primary/10 to-transparent"
-                  layoutId="activeCategory"
-                  initial={false}
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-sm" />
               )}
-            </motion.button>
+            </button>
           ))}
         </section>
 
-        {activeCategory && (
-          <motion.section
-            className="grid grid-cols-1 gap-4 mt-0"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.id}
-                className="rounded-md p-4 space-y-3 hover:bg-secondary/20 transition-colors duration-200 border border-border/50"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <h2 className="text-sm font-semibold tracking-tight mt-0">
-                  {project.title}
-                </h2>
-                <p className="text-xs text-muted-foreground">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <span key={tech} className="tag">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex gap-4">
-                  {project.codeLink && (
-                    <a
-                      href={project.codeLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
-                    >
-                      View Code →
-                    </a>
-                  )}
-                  {project.liveLink && (
-                    <a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-200"
-                    >
-                      View Live →
-                    </a>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </motion.section>
-        )}
+        {/* Projects - Always in DOM like home page */}
+        <section
+          ref={projectsRef}
+          className="grid grid-cols-1 gap-4"
+          style={{
+            opacity: 0,
+            display: activeCategory ? "grid" : "none",
+          }}
+        >
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              className="project-card group rounded-lg p-5 space-y-4 border border-border/40 hover:border-primary/30 hover:bg-secondary/5 transition-all duration-300 cursor-pointer hover:shadow-sm"
+            >
+              <h2 className="text-sm font-semibold tracking-tight group-hover:text-primary transition-colors duration-300">
+                {project.title}
+              </h2>
+              <p className="text-xs text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+                {project.description}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {project.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-block px-2 py-1 text-xs rounded-md bg-secondary/30 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex gap-4">
+                {project.codeLink && (
+                  <a
+                    href={project.codeLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-300"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View Code →
+                  </a>
+                )}
+                {project.liveLink && (
+                  <a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline underline-offset-2 hover:text-primary transition-colors duration-300"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View Live →
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </section>
       </div>
     </div>
   );

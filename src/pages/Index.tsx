@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, FileText } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
 const Index = () => {
   const containerVariants = {
@@ -26,26 +27,35 @@ const Index = () => {
     },
   };
 
-  const socialLinks = [
+  const socialLinks: Array<{
+    icon: LucideIcon | string;
+    href: string;
+    label: string;
+    type: "lucide" | "image";
+  }> = [
     {
       icon: Github,
       href: "https://github.com/jchiwaii",
       label: "GitHub",
+      type: "lucide",
     },
     {
       icon: Linkedin,
       href: "https://www.linkedin.com/in/john-chiwai/",
       label: "LinkedIn",
+      type: "lucide",
     },
     {
       icon: Mail,
       href: "mailto:chiwai.kiriba@gmail.com",
       label: "Email",
+      type: "lucide",
     },
     {
-      icon: FileText,
+      icon: "/images/medium-icon.png",
       href: "https://medium.com/@chiwai.kiriba",
       label: "Medium",
+      type: "image",
     },
   ];
 
@@ -100,7 +110,18 @@ const Index = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <social.icon className="social-icon" />
+                {social.type === "lucide" ? (
+                  (() => {
+                    const IconComponent = social.icon as LucideIcon;
+                    return <IconComponent className="social-icon" />;
+                  })()
+                ) : (
+                  <img
+                    src={social.icon as string}
+                    alt={social.label}
+                    className="w-5 h-5 filter brightness-75 hover:brightness-100 transition-all duration-200"
+                  />
+                )}
               </motion.a>
             ))}
           </motion.div>

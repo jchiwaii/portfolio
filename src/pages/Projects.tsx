@@ -79,13 +79,13 @@ const Projects = () => {
               className={`group relative px-4 py-3 rounded-md text-left transition-all duration-200 outline-none ring-offset-background
                 ${
                   activeCategory === category.id
-                    ? "bg-secondary/40 dark:bg-secondary/30"
-                    : "hover:bg-secondary/20 dark:hover:bg-secondary/10"
+                    ? "bg-secondary/30"
+                    : "hover:bg-secondary/10"
                 }
                 ${
                   activeCategory === category.id
-                    ? "ring-2 ring-primary/20 dark:ring-primary/10"
-                    : "hover:ring-1 hover:ring-primary/10 dark:hover:ring-primary/5"
+                    ? "ring-2 ring-primary/10"
+                    : "hover:ring-1 hover:ring-primary/5"
                 }
               `}
               whileHover={{ scale: 1.01 }}
@@ -101,7 +101,7 @@ const Projects = () => {
               </div>
               {activeCategory === category.id && (
                 <motion.div
-                  className="absolute inset-0 rounded-md bg-gradient-to-br from-primary/5 to-transparent dark:from-primary/10 dark:to-transparent"
+                  className="absolute inset-0 rounded-md bg-gradient-to-br from-primary/10 to-transparent"
                   layoutId="activeCategory"
                   initial={false}
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}

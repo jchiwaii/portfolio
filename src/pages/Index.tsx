@@ -1,7 +1,6 @@
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, FileText } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Index = () => {
   const containerVariants = {
@@ -51,17 +50,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col relative">
-      {/* Theme Toggle */}
-      <motion.div
-        className="absolute top-6 right-6 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-      >
-        <ThemeToggle />
-      </motion.div>
-
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Main Content */}
       <motion.main
         className="flex-1 flex items-center justify-center px-6"

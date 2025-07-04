@@ -15,35 +15,6 @@
 
 @layer base {
   :root {
-    --background: 252 251 249; /* #FCFBF9 - warm white */
-    --foreground: 67 56 58; /* #43383A - warm dark */
-
-    --card: 252 251 249;
-    --card-foreground: 67 56 58;
-
-    --popover: 252 251 249;
-    --popover-foreground: 67 56 58;
-
-    --primary: 219 39 119; /* #DB2777 - warm pink */
-    --primary-foreground: 252 251 249;
-
-    --secondary: 251 207 232; /* #FBCFE8 - light pink */
-    --secondary-foreground: 67 56 58;
-
-    --muted: 248 243 245; /* #F8F3F5 - very light pink */
-    --muted-foreground: 120 113 108; /* #78716C - muted brown */
-
-    --accent: 251 207 232;
-    --accent-foreground: 67 56 58;
-
-    --border: 244 228 234; /* #F4E4EA - pink border */
-    --input: 244 228 234;
-    --ring: 236 181 201; /* #ECB5C9 - pink ring */
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
     --background: 23 23 23; /* #171717 - warm dark */
     --foreground: 245 224 233; /* #F5E0E9 - warm light pink */
 
@@ -68,6 +39,8 @@
     --border: 51 45 47; /* #332D2F - dark warm border */
     --input: 51 45 47;
     --ring: 190 24 93; /* #BE185D - dark pink ring */
+
+    --radius: 0.5rem;
   }
 }
 
@@ -164,22 +137,11 @@
     @apply transition-colors duration-200;
   }
 
-  /* Light mode specific hover states */
-  .light {
-    .nav-item:hover,
-    .footer-link:hover,
-    a:hover {
-      color: hsl(var(--primary));
-    }
-  }
-
-  /* Dark mode specific hover states */
-  .dark {
-    .nav-item:hover,
-    .footer-link:hover,
-    a:hover {
-      color: hsl(var(--primary));
-    }
+  /* Hover states */
+  .nav-item:hover,
+  .footer-link:hover,
+  a:hover {
+    color: hsl(var(--primary));
   }
 }
 
@@ -191,35 +153,4 @@
 /* Social icons */
 .social-icon {
   @apply w-5 h-5 text-muted-foreground hover:text-primary transition-colors duration-200;
-}
-
-/* Fix for theme toggle visibility in light mode */
-.theme-toggle {
-  @apply border border-border;
-}
-
-.light .theme-toggle {
-  @apply border border-gray-300;
-}
-
-/* Body text specific colors */
-.light p,
-.light .text-muted-foreground {
-  color: #333333; /* Lighter than before */
-}
-
-.dark p,
-.dark .text-muted-foreground {
-  color: #aaaaaa; /* Keeping the same */
-}
-
-/* Theme toggle hover effect */
-.light .theme-toggle:hover {
-  @apply bg-secondary/80;
-  color: #000000;
-}
-
-.dark .theme-toggle:hover {
-  @apply bg-secondary/80;
-  color: #ffffff;
 }

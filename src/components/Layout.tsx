@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "./ThemeToggle";
 
 interface NavItemProps {
   to: string;
@@ -61,7 +60,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </NavItem>
           </nav>
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="sm:hidden p-1 hover:bg-accent/50 rounded-md transition-colors"

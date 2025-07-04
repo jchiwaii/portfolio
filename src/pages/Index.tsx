@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { Github, Linkedin, Mail, BookOpen } from "lucide-react";
 import ProjectsPanel from "@/components/ProjectsPanel";
+import ArticlesPanel from "@/components/ArticlesPanel";
 
 // Register GSAP plugins
 gsap.registerPlugin(CustomEase);
@@ -65,7 +66,12 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
 
   const handleArticlesClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.location.href = "/articles";
+
+    if (openRightPanel) {
+      openRightPanel(<ArticlesPanel />, "Articles");
+    } else {
+      window.location.href = "/articles";
+    }
   };
 
   // Smooth entrance animation

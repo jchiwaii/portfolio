@@ -61,8 +61,12 @@ const Index = () => {
         <div className="text-center space-y-8 max-w-md">
           {/* Profile Image */}
           <motion.div className="flex justify-center" variants={itemVariants}>
-            <div className="profile-image bg-gradient-to-br from-primary/20 to-secondary/30 flex items-center justify-center">
-              <span className="text-4xl font-semibold text-primary">JC</span>
+            <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+              <img
+                src="/images/profile.jpg"
+                alt="John Chiwai"
+                className="w-full h-full object-cover object-center scale-110"
+              />
             </div>
           </motion.div>
 
@@ -75,15 +79,6 @@ const Index = () => {
               Developer | Learner
             </p>
           </motion.div>
-
-          {/* Tagline */}
-          <motion.p
-            className="text-sm text-muted-foreground leading-relaxed px-4"
-            variants={itemVariants}
-          >
-            Where logic meets aesthetics. I create things that make sense and
-            look right.
-          </motion.p>
 
           {/* Social Links */}
           <motion.div
@@ -134,13 +129,6 @@ const Index = () => {
             whileHover={{ y: -2 }}
           >
             Articles
-          </motion.a>
-          <motion.a
-            href="/contact"
-            className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
-            whileHover={{ y: -2 }}
-          >
-            Contact
           </motion.a>
         </div>
       </motion.nav>

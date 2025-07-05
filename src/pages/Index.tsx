@@ -4,6 +4,12 @@ import { CustomEase } from "gsap/CustomEase";
 import { Github, Linkedin, Mail, BookOpen } from "lucide-react";
 import ProjectsPanel from "@/components/ProjectsPanel";
 import ArticlesPanel from "@/components/ArticlesPanel";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 
 // Register GSAP plugins
 gsap.registerPlugin(CustomEase);
@@ -180,7 +186,7 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
                 John Chiwai
               </h1>
               <p className="text-sm font-medium text-muted-foreground tracking-wide">
-                Developer | Learner
+                || Developer ||
               </p>
             </div>
 
@@ -190,22 +196,32 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
               className="flex justify-center space-x-6"
               style={{ opacity: 0 }}
             >
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target={social.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    social.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="group p-2 rounded-md hover:bg-secondary/10 transition-colors duration-300"
-                  aria-label={social.label}
-                >
-                  <social.icon className="social-icon w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
-                </a>
-              ))}
+              <TooltipProvider>
+                {socialLinks.map((social) => (
+                  <Tooltip key={social.label}>
+                    <TooltipTrigger asChild>
+                      <a
+                        href={social.href}
+                        target={
+                          social.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        rel={
+                          social.href.startsWith("http")
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                        className="group p-2 rounded-md hover:bg-secondary/10 transition-colors duration-300"
+                        aria-label={social.label}
+                      >
+                        <social.icon className="social-icon w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{social.label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </TooltipProvider>
             </div>
           </div>
         </main>

@@ -1,7 +1,7 @@
-import { useRef, useEffect, useLayoutEffect } from "react";
+import { useRef, useEffect, useLayoutEffect, useState } from "react";
 import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
-import { Github, Linkedin, Mail, BookOpen } from "lucide-react";
+import { Github, Linkedin, Mail, BookOpen, ExternalLink } from "lucide-react";
 import ProjectsPanel from "@/components/ProjectsPanel";
 import ArticlesPanel from "@/components/ArticlesPanel";
 import {
@@ -26,14 +26,27 @@ CustomEase.create("subtleIn", "0.4, 0, 0.2, 1");
 
 interface IndexProps {
   openRightPanel?: (content: React.ReactNode, title: string) => void;
+  closeRightPanel?: () => void;
+  rightPanelState?: {
+    isOpen: boolean;
+    content: React.ReactNode;
+    title: string;
+  };
 }
 
-const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
+const Index: React.FC<IndexProps> = ({
+  openRightPanel,
+  closeRightPanel,
+  rightPanelState,
+}) => {
+  const [showAboutMe, setShowAboutMe] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const contentWrapperRef = useRef<HTMLDivElement>(null);
   const profileImageRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLDivElement>(null);
   const socialLinksRef = useRef<HTMLDivElement>(null);
+  const aboutMeRef = useRef<HTMLDivElement>(null);
   const navigationRef = useRef<HTMLDivElement>(null);
   const masterTl = useRef<gsap.core.Timeline>();
 
@@ -63,7 +76,10 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
   const handleProjectsClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    if (openRightPanel) {
+    // Toggle functionality: if Projects panel is already open, close it
+    if (rightPanelState?.isOpen && rightPanelState?.title === "Projects") {
+      closeRightPanel?.();
+    } else if (openRightPanel) {
       openRightPanel(<ProjectsPanel />, "Projects");
     }
   };
@@ -71,10 +87,92 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
   const handleArticlesClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    if (openRightPanel) {
+    // Toggle functionality: if Articles panel is already open, close it
+    if (rightPanelState?.isOpen && rightPanelState?.title === "Articles") {
+      closeRightPanel?.();
+    } else if (openRightPanel) {
       openRightPanel(<ArticlesPanel />, "Articles");
     }
   };
+
+  const handleAboutMeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowAboutMe(!showAboutMe);
+  };
+
+  // Animate About Me section when toggled
+  useEffect(() => {
+    if (aboutMeRef.current) {
+      if (showAboutMe) {
+        // First, temporarily show element to measure its natural height
+        gsap.set(aboutMeRef.current, {
+          visibility: "hidden",
+          height: "auto",
+          opacity: 1,
+          paddingTop: "1.5rem",
+          paddingBottom: "1.5rem",
+          marginTop: "2.5rem",
+        });
+
+        // Get the natural height
+        const targetHeight = aboutMeRef.current.scrollHeight;
+
+        // Now set initial state for smooth animation
+        gsap.set(aboutMeRef.current, {
+          visibility: "visible",
+          opacity: 0,
+          y: -15,
+          height: 0,
+          overflow: "hidden",
+          marginTop: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+        });
+
+        // Create smooth entrance timeline
+        const tl = gsap.timeline();
+
+        tl.to(aboutMeRef.current, {
+          height: targetHeight,
+          marginTop: "2.5rem",
+          paddingTop: "1.5rem",
+          paddingBottom: "1.5rem",
+          duration: 0.7,
+          ease: "luxuryOut",
+        }).to(
+          aboutMeRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "luxuryOut",
+          },
+          "-=0.4"
+        );
+      } else {
+        // Create smooth exit timeline - fade content first, then collapse
+        const tl = gsap.timeline();
+
+        tl.to(aboutMeRef.current, {
+          opacity: 0,
+          y: -15,
+          duration: 0.4,
+          ease: "luxuryOut",
+        }).to(
+          aboutMeRef.current,
+          {
+            height: 0,
+            marginTop: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            duration: 0.6,
+            ease: "luxuryOut",
+          },
+          "-=0.2"
+        );
+      }
+    }
+  }, [showAboutMe]);
 
   // Smooth entrance animation
   useLayoutEffect(() => {
@@ -223,6 +321,70 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
                 ))}
               </TooltipProvider>
             </div>
+
+            {/* About Me Section */}
+            {showAboutMe && (
+              <div
+                ref={aboutMeRef}
+                className="max-w-lg mx-auto text-left rounded-lg bg-secondary/5 border border-border/30"
+                style={{
+                  opacity: 0,
+                  overflow: "hidden",
+                  paddingLeft: "1.5rem",
+                  paddingRight: "1.5rem",
+                }}
+              >
+                <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
+                  <p>
+                    I am currently suffering from chronic curiosity. I tell
+                    stories using pictures and data. Currently aiming to become
+                    a Fullstack developer, so that I can deploy ML models in
+                    websites. Fullstack web + Data Science.
+                  </p>
+
+                  <p>
+                    I am also a certified data professional by Explore AI - and
+                    ALX Africa. SQL'ing my way into projects and open for
+                    collaboration. I am currently building{" "}
+                    <a
+                      href="https://sql-ace.netlify.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary font-medium underline underline-offset-2 hover:underline-offset-4 hover:text-primary/80 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 rounded-sm"
+                      aria-label="SQLAce - Opens in new tab"
+                    >
+                      SQLAce
+                      <ExternalLink
+                        size={12}
+                        className="inline-block ml-0.5"
+                        aria-hidden="true"
+                      />
+                    </a>
+                    . I also design sleek dashboards, and out-of-the box
+                    solutions. Whether it is powerpoints and designs, anything
+                    on a Canvas, or Pixels, you better call John.
+                  </p>
+
+                  <p>
+                    !important: I am also open to collaborations and long term
+                    engagement for projects that involve Gen AI solutions, and
+                    making useful AI.
+                  </p>
+
+                  <p>Avid reader. Also learning Rust on the side.</p>
+
+                  <p>
+                    Trust me it's hard writing a bio. Anyway, we can talk,
+                    anything from UI/UX to Calculus.
+                  </p>
+
+                  <p>
+                    Ooh, and I am an Actuarial Graduate, so nothing is too hard
+                    to crack.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </main>
 
@@ -231,14 +393,44 @@ const Index: React.FC<IndexProps> = ({ openRightPanel }) => {
           <div className="flex justify-center space-x-8">
             <button
               onClick={handleProjectsClick}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
+              className={`text-sm font-medium transition-colors duration-300 cursor-pointer ${
+                rightPanelState?.isOpen && rightPanelState?.title === "Projects"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-primary"
+              }`}
+              aria-label={
+                rightPanelState?.isOpen && rightPanelState?.title === "Projects"
+                  ? "Close Projects panel"
+                  : "Open Projects panel"
+              }
             >
               Projects
             </button>
 
             <button
+              onClick={handleAboutMeClick}
+              className={`text-sm font-medium transition-colors duration-300 cursor-pointer ${
+                showAboutMe
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-primary"
+              }`}
+              aria-label={showAboutMe ? "Hide About Me" : "Show About Me"}
+            >
+              About Me
+            </button>
+
+            <button
               onClick={handleArticlesClick}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer"
+              className={`text-sm font-medium transition-colors duration-300 cursor-pointer ${
+                rightPanelState?.isOpen && rightPanelState?.title === "Articles"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-primary"
+              }`}
+              aria-label={
+                rightPanelState?.isOpen && rightPanelState?.title === "Articles"
+                  ? "Close Articles panel"
+                  : "Open Articles panel"
+              }
             >
               Articles
             </button>

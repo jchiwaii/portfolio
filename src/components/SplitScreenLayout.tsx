@@ -183,9 +183,11 @@ export const SplitScreenLayout: React.FC<SplitScreenLayoutProps> = ({
           transition: "none !important", // Force override any CSS transitions
         }}
       >
-        {/* Pass openRightPanel function to children */}
+        {/* Pass panel functions and state to children */}
         {React.cloneElement(children as React.ReactElement, {
           openRightPanel,
+          closeRightPanel,
+          rightPanelState: rightPanel,
         })}
       </div>
 
